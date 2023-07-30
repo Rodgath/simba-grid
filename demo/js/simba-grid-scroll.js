@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     { "image": "images/17.jpg" },
     { "image": "images/18.jpg" },
     { "image": "images/19.jpg" },
-    { "image": "images/20.jpg" },
-    { "image": "images/21.jpg" }
+    { "image": "images/20.jpg" }
   ];
 
 
+  const shuffleGridItems = true;
   const scrollSpeed = 1;
   const pauseOnHover = true;
   const imageGridGap = 16;
@@ -54,9 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  const shuffleArray = (array) => {
+    
+    /* Make a copy of the original array to prevent altering the original array */
+    const shuffledArray = array.slice(); // 
 
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
 
-  const imagesData = repeatArray(imagesObject, maxImagesToFetch);
+    return shuffledArray;
+  }
+
+  const shuffled = shuffleGridItems ? shuffleArray(imagesObject) : imagesObject;
+
+  console.log('shuffled', shuffled);
+
+  const imagesData = repeatArray(shuffled, maxImagesToFetch);
 
 
 
@@ -154,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* Start the scrolling animation */
-  scrollContent();
+  // scrollContent();
 
   /* Event listeners to detect hover state */
   mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
