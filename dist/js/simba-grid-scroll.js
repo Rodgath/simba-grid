@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
 
+  const scrollSpeed = 1;
   const pauseOnHover = true;
   const imageGridGap = 16;
   const imageGridItemHeight = 240;
@@ -144,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mainWrapper.scrollLeft >= offset) {
         mainWrapper.scrollLeft -= offset;
       } else {
-        mainWrapper.scrollLeft += 1; // Adjust the scrolling speed here
+        mainWrapper.scrollLeft += scrollSpeed; // Adjust the scrolling speed here
       }
     }
 
