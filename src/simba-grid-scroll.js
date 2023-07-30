@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
 
+  const pauseOnHover = true;
   const imageGridGap = 16;
   const imageGridItemHeight = 240;
   const imageGridContainerWidth = 1200;
@@ -136,10 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Check if the mainWrapper is being hovered */
     if (!isHovering) {
-
-      // console.log('0', imageGridContainer.offsetWidth);
-      console.log('m', mainWrapper.scrollLeft);
-      // console.log('g', mainWrapper.offsetWidth);
+      
       const offset = (imageGridContainer.offsetWidth * gridRepeats) + (gridRepeats * imageGridGap);
 
       /* Reset the scroll position to the left when it reaches the end */
@@ -158,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   scrollContent();
 
   /* Event listeners to detect hover state */
-  mainWrapper.addEventListener('mouseenter', () => isHovering = true );
+  mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
   mainWrapper.addEventListener('mouseleave', () => isHovering = false );
 
 
