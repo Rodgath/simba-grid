@@ -1,0 +1,21 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.main-wrapper {
+  width: 100%;
+  /* height: 540px; */
+  white-space: nowrap;
+  overflow: scroll;
+  display: inline-flex;
+}
+
+.image-grid-container {
+  /* height: 800px; */
+  min-width: 1280px
+}
+
+.image-grid-item {
+  min-height: 180px
+}
