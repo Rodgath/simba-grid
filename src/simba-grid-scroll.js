@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { "image": "images/17.jpg" },
     { "image": "images/18.jpg" },
     { "image": "images/19.jpg" },
-    { "image": "images/20.jpg" }
+    { "image": "images/20.jpg" },
+    { "image": "images/21.jpg" }
   ];
 
 
@@ -169,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* Start the scrolling animation */
-  // scrollContent();
+  scrollContent();
 
   /* Event listeners to detect hover state */
   mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
