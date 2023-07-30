@@ -129,30 +129,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const imageGridContainer = document.querySelector(".image-grid-container");
 
 
+  let isHovering = false;
 
-  
   /* Handle scrolling */
   const scrollContent = () => {
-    
-    // console.log('0', imageGridContainer.offsetWidth);
-    console.log('m', mainWrapper.scrollLeft);
-    // console.log('g', mainWrapper.offsetWidth);
-    const offset = (imageGridContainer.offsetWidth * gridRepeats) + (gridRepeats * imageGridGap);
 
-    /* Reset the scroll position to the left when it reaches the end */
-    if (mainWrapper.scrollLeft >= offset) {
-      mainWrapper.scrollLeft -= offset;
-    } else {
-      mainWrapper.scrollLeft += 1; // Adjust the scrolling speed here
+    /* Check if the mainWrapper is being hovered */
+    if (!isHovering) {
+
+      // console.log('0', imageGridContainer.offsetWidth);
+      console.log('m', mainWrapper.scrollLeft);
+      // console.log('g', mainWrapper.offsetWidth);
+      const offset = (imageGridContainer.offsetWidth * gridRepeats) + (gridRepeats * imageGridGap);
+
+      /* Reset the scroll position to the left when it reaches the end */
+      if (mainWrapper.scrollLeft >= offset) {
+        mainWrapper.scrollLeft -= offset;
+      } else {
+        mainWrapper.scrollLeft += 1; // Adjust the scrolling speed here
+      }
     }
-    
+
     /* Request the next animation frame */
     requestAnimationFrame(scrollContent);
   };
 
   /* Start the scrolling animation */
   scrollContent();
-  
+
+  /* Event listeners to detect hover state */
+  mainWrapper.addEventListener('mouseenter', () => isHovering = true );
+  mainWrapper.addEventListener('mouseleave', () => isHovering = false );
+
+
+
 
 
 
