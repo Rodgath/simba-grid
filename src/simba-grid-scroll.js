@@ -36,8 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
 
-  const shuffleGridItems = true;
-  const scrollSpeed = 1;
+  const animationStyle = 'zoomRotate'; // 'zoom', 'rotate', 'zoomRotate'
+  const shuffleGridItems = false;
+  const scrollSpeed = 3;
   const pauseOnHover = true;
   const imageGridGap = 16;
   const imageGridItemHeight = 240;
@@ -214,6 +215,45 @@ document.addEventListener('DOMContentLoaded', () => {
     cloneChildren.forEach(clonedChild => {
       container.appendChild(clonedChild);
     });
+
+    /* Handle animations */
+    const gridItems = container.querySelectorAll('.image-grid-item')
+    for (let j = 0; j < gridItems.length; j++) {
+      const gridItem = gridItems[j];
+      
+      let transformStart = '';
+      let transformEnd = '';
+      
+      switch (animationStyle) {
+        case 'zoom':
+          transformStart = 'scale(0)';
+          transformEnd = 'scale(1)';
+          break;
+        case 'rotate':
+          transformStart = 'rotate(-20deg)';
+          transformEnd = 'rotate(0deg)';
+          break;
+        case 'zoomRotate':
+          transformStart = 'rotate(-20deg) scale(0)';
+          transformEnd = 'rotate(0deg) scale(1)';
+          break;
+        default:
+          break;
+      }
+      
+      gridItem.style.opacity = 0;
+      gridItem.style.transform = transformStart;
+      gridItem.style.transitionProperty = `opacity, transform`;
+      gridItem.style.transitionDuration = `0.4s, 0.4s`;
+      gridItem.style.transitionTimingFunction = `linear, linear`;
+      gridItem.style.transitionDelay = `0s, 0s`;
+          
+      setTimeout(() => {
+        // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
+        gridItem.style.opacity = 1;
+        gridItem.style.transform = transformEnd;
+      }, j*200);
+    }
   }
   
 });
