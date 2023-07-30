@@ -1,18 +1,18 @@
 {
-  "name": "grid-scroll-infinite",
+  "name": "simba-grid-scroll",
   "version": "1.0.0",
   "description": "Infinite grid scroll",
-  "main": "./dist/grid-scroll-infinite.min.js",
+  "main": "./dist/simba-grid-scroll.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rodgath/grid-scroll-infinite.git"
+    "url": "git+https://github.com/Rodgath/simba-grid-scroll.git"
   },
   "keywords": [
     "grid-scroll",
-    "imagee-scroll",
+    "image-scroll",
     "image-grid"
   ],
   "author": {
@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Rodgath/grid-scroll-infinite/issues",
+    "url": "https://github.com/Rodgath/simba-grid-scroll/issues",
     "email": "contact@rodgath.com"
   },
-  "homepage": "https://github.com/Rodgath/grid-scroll-infinite",
+  "homepage": "https://github.com/Rodgath/simba-grid-scroll",
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
