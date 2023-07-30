@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // Your JSON object
+  
   const imagesObject = [
     { "image": "images/01.jpg" },
     { "image": "images/02.jpg" },
@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const shuffleGridItems = false;
   const scrollSpeed = 3;
   const pauseOnHover = true;
-  const imageGridGap = 16;
-  const imageGridItemHeight = 240;
+  const imageGridGap = 0;
+  const imageGridItemHeight = 280;
   const imageGridContainerWidth = 1200;
   const imageGridContainerRows = 3;
   const imageGridContainerCols = 3;
@@ -70,13 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const shuffled = shuffleGridItems ? shuffleArray(imagesObject) : imagesObject;
-
-  console.log('shuffled', shuffled);
-
+  
   const imagesData = repeatArray(shuffled, maxImagesToFetch);
-
-
-
+  
   /* Create a single grid and append images to it */
   const createImageGrid = (imageGroup, num) => {
 
@@ -93,17 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     imageGroup.forEach((imageInfo, index) => {
       
-      const imageGridItem = document.createElement("a");
+      const imageGridItem = document.createElement("div");
       imageGridItem.classList.add("image-grid-item");
       
-      imageGridItem.href = `https://www.example.com/${index}`;
-      imageGridItem.textContent = "";
-      imageGridItem.target = "_blank"; // Open link in a new tab
       imageGridItem.style.minHeight = `${imageGridItemHeight}px`;
       imageGridItem.style.backgroundImage = `url(${imageInfo.image})`;
       imageGridItem.style.backgroundSize = "cover";
       imageGridItem.style.backgroundPosition = "center";
-      imageGridItem.style.borderRadius = `8px`;
+      // imageGridItem.style.borderRadius = `8px`;
+      
       imageGrid.appendChild(imageGridItem);
       container.appendChild(imageGrid);
     });
@@ -146,8 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cloneAndAppendChildren(mainWrapper);
 
   const imageGridContainer = document.querySelector(".image-grid-container");
-
-
+  
   let isHovering = false;
 
   /* Handle scrolling */
@@ -176,12 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Event listeners to detect hover state */
   mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
   mainWrapper.addEventListener('mouseleave', () => isHovering = false );
-
-
-
-
-
-
+  
   function repeatArray(array, targetLength) {
     const repeatedArray = [];
     const originalLength = array.length;
@@ -193,25 +181,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return repeatedArray.slice(0, targetLength);
   }
-
-  // Example usage: Repeat the array until the length is 48 items
-  // const repeatedImagesData = repeatArray(imagesData, 46);
-  // console.log(repeatedImagesData);
-
-
-  // Function to clone and append child elements to the end of the container
+  
+  /* Clone and append child elements to the end of the container */
   function cloneAndAppendChildren(container) {
     const originalChildren = container.children;
     const cloneChildren = [];
 
-    // Clone each child element
+    /* Clone each child element */
     for (let i = 0; i < originalChildren.length; i++) {
       const originalChild = originalChildren[i];
       const clonedChild = originalChild.cloneNode(true); // Set to true to deep clone with all descendants
       cloneChildren.push(clonedChild);
     }
 
-    // Append the cloned children to the end of the container
+    /* Append the cloned children to the end of the container */
     cloneChildren.forEach(clonedChild => {
       container.appendChild(clonedChild);
     });
