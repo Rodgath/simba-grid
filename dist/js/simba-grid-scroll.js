@@ -1,18 +1,66 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-  function calculateNextDivisible(ref, num) {
+function simbaGridScroll(element, options) {
 
-    /* Calculate the next number that is divisible by reference number */
-    const nextDivisible = Math.ceil(num / ref) * ref;
-    
-    return nextDivisible;
-  }
+  var defaults = {
+    width: 1200,
+    cols: 3,
+    rows: 3,
+    rowHeight: 280,
+    gap: 0,
+    scrollSpeed: 1,
+    pauseOnHover: true,
+    shuffle: false,
+    animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
+  };
 
+  /* Merge 'options' with 'defaults' */
+  options = Object.assign({}, defaults, options);
 
-
+  /* Set image box element */
+  let simbaGridWrapper;
   
-  const imagesObject = [
-    { "image": "images/01.jpg" },
+  /* Check if 'element' is a valid DOM element */
+  if (element instanceof HTMLElement || element instanceof Node) {
+    simbaGridWrapper = element;
+  } else {
+    simbaGridWrapper = document.querySelector(element);
+  }
+  
+  gridItemsObject = getGridItems();
+  
+  /* Get the images to spin */
+  function getGridItems() {
+
+    let clonedWrapper = document.createElement('div');
+
+    let gridItems;
+    
+    /* Check if ihe 'grid' property exists, is an array, and has items */
+    if (options.hasOwnProperty('grid') && Array.isArray(options.images) && options.images.length > 0) {
+      
+      options.images.forEach(imageObj => {
+        const imgElement = document.createElement('*');
+        imgElement.src = imageObj.src;
+        imgElement.alt = imageObj.title;
+        
+        simbaGridWrapper.appendChild(imgElement);
+      });
+
+      gridItems = simbaGridWrapper.querySelectorAll('*');
+    } else {
+      gridItems = simbaGridWrapper.querySelectorAll('*');
+    }
+
+    for (let i = 0; i < gridItems.length; i++) {
+      clonedWrapper.appendChild(gridItems[i])      
+    }
+    clonedWrapper.style.display = 'none';
+    document.body.appendChild(clonedWrapper);
+    // simbaGridWrapper.querySelectorAll('*').remove();
+    return Array.from(clonedWrapper.querySelectorAll('*'));
+  }
+/*   
+  const gridItemsObject = [
+    { 'image": "images/01.jpg" },
     { "image": "images/02.jpg" },
     { "image": "images/03.jpg" },
     { "image": "images/04.jpg" },
@@ -33,29 +81,20 @@ document.addEventListener('DOMContentLoaded', () => {
     { "image": "images/19.jpg" },
     { "image": "images/20.jpg" },
     { "image": "images/21.jpg" }
-  ];
-
-
-  const animationStyle = 'zoomRotate'; // 'zoom', 'rotate', 'zoomRotate'
-  const shuffleGridItems = true;
-  const scrollSpeed = 3;
-  const pauseOnHover = true;
-  const imageGridGap = 0;
-  const imageGridItemHeight = 280;
-  const imageGridContainerWidth = 1200;
-  const imageGridContainerRows = 3;
-  const imageGridContainerCols = 3;
-  const imageChunkCount = imageGridContainerRows*imageGridContainerCols;
-  // const imagesToFetch = 15;
-  const imagesToFetch = imagesObject.length+3;
-  const maxImagesToFetch = calculateNextDivisible(imageChunkCount, imagesToFetch);
-  const gridRepeats = maxImagesToFetch/imageChunkCount;
-
-  console.log('imagesToFetch', imagesToFetch);
-  console.log('maxImagesToFetch', maxImagesToFetch);
+  ]; */
 
 
 
+  const gridGap = options.gap;
+  const gridItemHeight = options.rowHeight;
+  const gridContainerWidth = options.width;
+  const gridContainerRows = options.rows;
+  const gridContainerCols = options.cols;
+  const gridChunkCount = gridContainerRows*gridContainerCols;
+  const gridItemsToFetch = gridItemsObject.length+getRandomBetween(1,2);
+  const maxGridItemsToFetch = calculateNextDivisible(gridChunkCount, gridItemsToFetch);
+  const gridRepeats = maxGridItemsToFetch/gridChunkCount;
+  
   const shuffleArray = (array) => {
     
     /* Make a copy of the original array to prevent altering the original array */
@@ -69,57 +108,65 @@ document.addEventListener('DOMContentLoaded', () => {
     return shuffledArray;
   }
 
-  const shuffled = shuffleGridItems ? shuffleArray(imagesObject) : imagesObject;
+  const shuffled = options.shuffle ? shuffleArray(gridItemsObject) : gridItemsObject;
   
-  const imagesData = repeatArray(shuffled, maxImagesToFetch);
+  const gridItemsData = repeatArray(shuffled, maxGridItemsToFetch);
+  
   
   /* Create a single grid and append images to it */
-  const createImageGrid = (imageGroup, num) => {
+  const createItemGrid = (itemGroup, num) => {
+    
+    const simbaGridContainer = document.createElement('div');
+    simbaGridContainer.classList.add('simba-grid-container');
+    simbaGridContainer.style.minWidth = `${gridContainerWidth}px`;
+    
+    const simbaGrid = document.createElement('div');
+    simbaGrid.classList.add('simba-grid');
+    
+    simbaGrid.style.display = 'grid';
+    simbaGrid.style.gridTemplateColumns = `repeat(${gridContainerCols}, 1fr)`;
+    simbaGrid.style.gridAutoRows = `${gridItemHeight}px`;
+    simbaGrid.style.gap = `${gridGap}px`;
+    
+    itemGroup.forEach((itemData, index) => {
+      
+      const simbaGridItem = document.createElement('div');
 
-    const container = document.createElement("div");
-    container.classList.add("image-grid-container");
-    container.style.minWidth = `${imageGridContainerWidth}px`;
-    
-    const imageGrid = document.createElement("div");
-    imageGrid.classList.add("image-grid");
-    
-    imageGrid.style.display = "grid";
-    imageGrid.style.gridTemplateColumns = `repeat(${imageGridContainerCols}, 1fr)`;
-    imageGrid.style.gap = `${imageGridGap}px`;
-    
-    imageGroup.forEach((imageInfo, index) => {
+      simbaGridItem.classList.add('simba-grid-item');
+      // simbaGridItem.style.minHeight = `${gridItemHeight}px`;
+      simbaGridItem.style.overflow = 'hidden';
+      // simbaGridItem.style.borderRadius = `8px`;
+
+      if (itemData.tagName === 'IMG') {
+        simbaGridItem.style.backgroundImage = `url(${itemData.currentSrc})`;
+        simbaGridItem.style.backgroundSize = 'cover';
+        simbaGridItem.style.backgroundPosition = 'center';
+      } else {
+        itemData.style.width = '100%';
+        itemData.style.height = '100%';
+        itemData.style.whiteSpace = 'normal';
+        simbaGridItem.innerHTML = itemData.outerHTML;
+      }
       
-      const imageGridItem = document.createElement("div");
-      imageGridItem.classList.add("image-grid-item");
-      
-      imageGridItem.style.minHeight = `${imageGridItemHeight}px`;
-      imageGridItem.style.backgroundImage = `url(${imageInfo.image})`;
-      imageGridItem.style.backgroundSize = "cover";
-      imageGridItem.style.backgroundPosition = "center";
-      // imageGridItem.style.borderRadius = `8px`;
-      
-      imageGrid.appendChild(imageGridItem);
-      container.appendChild(imageGrid);
+      simbaGrid.appendChild(simbaGridItem);
+      simbaGridContainer.appendChild(simbaGrid);
     });
 
-    return container;
+    return simbaGridContainer;
   };
-
-
+  
   /* Get the contents of the JSON object in groups of three */
-  const gridGroups = chunkArray(imagesData, imageChunkCount);
+  const gridGroups = chunkArray(gridItemsData, gridChunkCount);
   const gridGroupsCount = gridGroups.length;
   const gridGroupsCols = gridGroupsCount * 2; // Double the grid for smooth infinite effect
 
-  const mainWrapper = document.querySelector('.main-wrapper');
-
-  mainWrapper.style.display = "grid";
-  mainWrapper.style.gap = `${imageGridGap}px`;
-  mainWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
-  mainWrapper.style.gridAutoRows = `${imageGridItemHeight*imageGridContainerRows}px`;
-  mainWrapper.style.height = `${((imageGridItemHeight+imageGridGap)*imageGridContainerRows)-imageGridGap}px`;
-  // mainWrapper.appendChild(wrapper);
-
+  simbaGridWrapper.classList.add('simba-grid-wrapper');
+  simbaGridWrapper.style.display = 'grid';
+  simbaGridWrapper.style.gap = `${gridGap}px`;
+  simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
+  simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
+  simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+  
   /* Group array elements in sets of 'chunkSize' */
   function chunkArray(arr, chunkSize) {
     const chunkedArray = [];
@@ -130,32 +177,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   gridGroups.forEach((group, index) => {
-    // console.log('group', group);
-    const gridContainer = createImageGrid(group, index);
+
+    const gridContainer = createItemGrid(group, index);
     
-    mainWrapper.appendChild(gridContainer);
-    
+    simbaGridWrapper.appendChild(gridContainer);
   })
 
-  cloneAndAppendChildren(mainWrapper);
-
-  const imageGridContainer = document.querySelector(".image-grid-container");
+  cloneAndAppendChildren(simbaGridWrapper);
   
   let isHovering = false;
 
   /* Handle scrolling */
   const scrollContent = () => {
 
-    /* Check if the mainWrapper is being hovered */
+    const gridContainer = document.querySelector('.simba-grid-container');
+
+    /* Check if the simbaGridWrapper is being hovered */
     if (!isHovering) {
       
-      const offset = (imageGridContainer.offsetWidth * gridRepeats) + (gridRepeats * imageGridGap);
-
+      const offset = (gridContainer.offsetWidth * gridRepeats) + (gridRepeats * gridGap);
+      
       /* Reset the scroll position to the left when it reaches the end */
-      if (mainWrapper.scrollLeft >= offset) {
-        mainWrapper.scrollLeft -= offset;
+      if (simbaGridWrapper.scrollLeft >= offset) {
+        simbaGridWrapper.scrollLeft -= offset;
       } else {
-        mainWrapper.scrollLeft += scrollSpeed; // Adjust the scrolling speed here
+        simbaGridWrapper.scrollLeft += options.scrollSpeed;
       }
     }
 
@@ -167,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
   scrollContent();
 
   /* Event listeners to detect hover state */
-  mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
-  mainWrapper.addEventListener('mouseleave', () => isHovering = false );
+  simbaGridWrapper.addEventListener('mouseenter', () => isHovering = options.pauseOnHover ? true : false );
+  simbaGridWrapper.addEventListener('mouseleave', () => isHovering = false );
   
   function repeatArray(array, targetLength) {
     const repeatedArray = [];
@@ -200,14 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* Handle animations */
-    const gridItems = container.querySelectorAll('.image-grid-item')
+    const gridItems = container.querySelectorAll('.simba-grid-item')
     for (let j = 0; j < gridItems.length; j++) {
       const gridItem = gridItems[j];
       
       let transformStart = '';
       let transformEnd = '';
       
-      switch (animationStyle) {
+      switch (options.animationStyle) {
         case 'zoom':
           transformStart = 'scale(0)';
           transformEnd = 'scale(1)';
@@ -239,4 +285,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-});
+  function getRandomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  
+  function calculateNextDivisible(ref, num) {
+
+    /* Calculate the next number that is divisible by reference number */
+    const nextDivisible = Math.ceil(num / ref) * ref;
+    
+    return nextDivisible;
+  }
+  
+};
