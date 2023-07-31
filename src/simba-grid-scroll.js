@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   
-  const imagesObject = [
+  const gridItemsObject = [
     { "image": "images/01.jpg" },
     { "image": "images/02.jpg" },
     { "image": "images/03.jpg" },
@@ -37,22 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const animationStyle = 'zoomRotate'; // 'zoom', 'rotate', 'zoomRotate'
-  const shuffleGridItems = false;
+  const shuffleGridItems = true;
   const scrollSpeed = 3;
   const pauseOnHover = true;
-  const imageGridGap = 0;
-  const imageGridItemHeight = 280;
-  const imageGridContainerWidth = 1200;
-  const imageGridContainerRows = 3;
-  const imageGridContainerCols = 3;
-  const imageChunkCount = imageGridContainerRows*imageGridContainerCols;
-  // const imagesToFetch = 15;
-  const imagesToFetch = imagesObject.length+3;
-  const maxImagesToFetch = calculateNextDivisible(imageChunkCount, imagesToFetch);
-  const gridRepeats = maxImagesToFetch/imageChunkCount;
+  const gridGap = 0;
+  const gridItemHeight = 280;
+  const gridContainerWidth = 1200;
+  const gridContainerRows = 3;
+  const gridContainerCols = 3;
+  const gridChunkCount = gridContainerRows*gridContainerCols;
+  // const gridItemsToFetch = 15;
+  const gridItemsToFetch = gridItemsObject.length+3;
+  const maxGridItemsToFetch = calculateNextDivisible(gridChunkCount, gridItemsToFetch);
+  const gridRepeats = maxGridItemsToFetch/gridChunkCount;
 
-  console.log('imagesToFetch', imagesToFetch);
-  console.log('maxImagesToFetch', maxImagesToFetch);
+  console.log('gridItemsToFetch', gridItemsToFetch);
+  console.log('maxGridItemsToFetch', maxGridItemsToFetch);
 
 
 
@@ -69,56 +69,56 @@ document.addEventListener('DOMContentLoaded', () => {
     return shuffledArray;
   }
 
-  const shuffled = shuffleGridItems ? shuffleArray(imagesObject) : imagesObject;
+  const shuffled = shuffleGridItems ? shuffleArray(gridItemsObject) : gridItemsObject;
   
-  const imagesData = repeatArray(shuffled, maxImagesToFetch);
+  const gridItemsData = repeatArray(shuffled, maxGridItemsToFetch);
   
   /* Create a single grid and append images to it */
-  const createImageGrid = (imageGroup, num) => {
+  const createItemGrid = (itemGroup, num) => {
 
-    const container = document.createElement("div");
-    container.classList.add("image-grid-container");
-    container.style.minWidth = `${imageGridContainerWidth}px`;
+    const simbaGridContainer = document.createElement("div");
+    simbaGridContainer.classList.add("simba-grid-container");
+    simbaGridContainer.style.minWidth = `${gridContainerWidth}px`;
     
-    const imageGrid = document.createElement("div");
-    imageGrid.classList.add("image-grid");
+    const simbaGrid = document.createElement("div");
+    simbaGrid.classList.add("simba-grid");
     
-    imageGrid.style.display = "grid";
-    imageGrid.style.gridTemplateColumns = `repeat(${imageGridContainerCols}, 1fr)`;
-    imageGrid.style.gap = `${imageGridGap}px`;
+    simbaGrid.style.display = "grid";
+    simbaGrid.style.gridTemplateColumns = `repeat(${gridContainerCols}, 1fr)`;
+    simbaGrid.style.gap = `${gridGap}px`;
     
-    imageGroup.forEach((imageInfo, index) => {
+    itemGroup.forEach((imageInfo, index) => {
       
-      const imageGridItem = document.createElement("div");
-      imageGridItem.classList.add("image-grid-item");
+      const simbaGridItem = document.createElement("div");
+      simbaGridItem.classList.add("simba-grid-item");
       
-      imageGridItem.style.minHeight = `${imageGridItemHeight}px`;
-      imageGridItem.style.backgroundImage = `url(${imageInfo.image})`;
-      imageGridItem.style.backgroundSize = "cover";
-      imageGridItem.style.backgroundPosition = "center";
-      // imageGridItem.style.borderRadius = `8px`;
+      simbaGridItem.style.minHeight = `${gridItemHeight}px`;
+      simbaGridItem.style.backgroundImage = `url(${imageInfo.image})`;
+      simbaGridItem.style.backgroundSize = "cover";
+      simbaGridItem.style.backgroundPosition = "center";
+      // simbaGridItem.style.borderRadius = `8px`;
       
-      imageGrid.appendChild(imageGridItem);
-      container.appendChild(imageGrid);
+      simbaGrid.appendChild(simbaGridItem);
+      simbaGridContainer.appendChild(simbaGrid);
     });
 
-    return container;
+    return simbaGridContainer;
   };
 
 
   /* Get the contents of the JSON object in groups of three */
-  const gridGroups = chunkArray(imagesData, imageChunkCount);
+  const gridGroups = chunkArray(gridItemsData, gridChunkCount);
   const gridGroupsCount = gridGroups.length;
   const gridGroupsCols = gridGroupsCount * 2; // Double the grid for smooth infinite effect
 
-  const mainWrapper = document.querySelector('.main-wrapper');
+  const simbaGridWrapper = document.querySelector('.main-wrapper');
 
-  mainWrapper.style.display = "grid";
-  mainWrapper.style.gap = `${imageGridGap}px`;
-  mainWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
-  mainWrapper.style.gridAutoRows = `${imageGridItemHeight*imageGridContainerRows}px`;
-  mainWrapper.style.height = `${((imageGridItemHeight+imageGridGap)*imageGridContainerRows)-imageGridGap}px`;
-  // mainWrapper.appendChild(wrapper);
+  simbaGridWrapper.style.display = "grid";
+  simbaGridWrapper.style.gap = `${gridGap}px`;
+  simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
+  simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
+  simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+  // simbaGridWrapper.appendChild(wrapper);
 
   /* Group array elements in sets of 'chunkSize' */
   function chunkArray(arr, chunkSize) {
@@ -131,31 +131,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gridGroups.forEach((group, index) => {
     // console.log('group', group);
-    const gridContainer = createImageGrid(group, index);
+    const gridContainer = createItemGrid(group, index);
     
-    mainWrapper.appendChild(gridContainer);
+    simbaGridWrapper.appendChild(gridContainer);
     
   })
 
-  cloneAndAppendChildren(mainWrapper);
+  cloneAndAppendChildren(simbaGridWrapper);
 
-  const imageGridContainer = document.querySelector(".image-grid-container");
+  const simbaGridContainer = document.querySelector(".simba-grid-container");
   
   let isHovering = false;
 
   /* Handle scrolling */
   const scrollContent = () => {
 
-    /* Check if the mainWrapper is being hovered */
+    /* Check if the simbaGridWrapper is being hovered */
     if (!isHovering) {
       
-      const offset = (imageGridContainer.offsetWidth * gridRepeats) + (gridRepeats * imageGridGap);
+      const offset = (simbaGridContainer.offsetWidth * gridRepeats) + (gridRepeats * gridGap);
 
       /* Reset the scroll position to the left when it reaches the end */
-      if (mainWrapper.scrollLeft >= offset) {
-        mainWrapper.scrollLeft -= offset;
+      if (simbaGridWrapper.scrollLeft >= offset) {
+        simbaGridWrapper.scrollLeft -= offset;
       } else {
-        mainWrapper.scrollLeft += scrollSpeed; // Adjust the scrolling speed here
+        simbaGridWrapper.scrollLeft += scrollSpeed; // Adjust the scrolling speed here
       }
     }
 
@@ -167,8 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
   scrollContent();
 
   /* Event listeners to detect hover state */
-  mainWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
-  mainWrapper.addEventListener('mouseleave', () => isHovering = false );
+  simbaGridWrapper.addEventListener('mouseenter', () => isHovering = pauseOnHover ? true : false );
+  simbaGridWrapper.addEventListener('mouseleave', () => isHovering = false );
   
   function repeatArray(array, targetLength) {
     const repeatedArray = [];
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* Handle animations */
-    const gridItems = container.querySelectorAll('.image-grid-item')
+    const gridItems = container.querySelectorAll('.simba-grid-item')
     for (let j = 0; j < gridItems.length; j++) {
       const gridItem = gridItems[j];
       

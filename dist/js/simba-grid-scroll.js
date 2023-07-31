@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const animationStyle = 'zoomRotate'; // 'zoom', 'rotate', 'zoomRotate'
-  const shuffleGridItems = false;
+  const shuffleGridItems = true;
   const scrollSpeed = 3;
   const pauseOnHover = true;
   const imageGridGap = 0;
