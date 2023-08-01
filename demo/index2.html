@@ -5,7 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simba Grid Scroll</title>
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -23,7 +22,7 @@
 		</nav>
 	</header>
 
-  <div class="my-simba-grid">
+  <div data-simba-grid='{ "animationStyle": "zoomRotate", "cols": "4" }'>
     <img src="images/01.jpg" alt="Image 01">
     <img src="images/02.jpg" alt="Image 02">
     <img src="images/03.jpg" alt="Image 03">
@@ -46,15 +45,7 @@
     <img src="images/20.jpg" alt="Image 20">
     <img src="images/21.jpg" alt="Image 21">
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      simbaGridScroll('.my-simba-grid', {
-        animationStyle : 'rotate'
-      });
-    });
-  </script>
-
+  
   <script src="js/simba-grid-scroll.js"></script>
   
 </body>
