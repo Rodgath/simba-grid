@@ -11,6 +11,14 @@ function simbaGridScroll(element, options) {
     shuffle: false,
     animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
   };
+  
+  /* Check if options argument is provided directly or in the data attribute */
+  if (!options) {
+    var dataAttributeOptions = element.dataset.simbaGrid;
+    if (dataAttributeOptions) {
+      options = JSON.parse(dataAttributeOptions);
+    }
+  }
 
   /* Merge 'options' with 'defaults' */
   options = Object.assign({}, defaults, options);
@@ -34,11 +42,11 @@ function simbaGridScroll(element, options) {
 
     let gridItems;
     
-    /* Check if ihe 'grid' property exists, is an array, and has items */
-    if (options.hasOwnProperty('grid') && Array.isArray(options.images) && options.images.length > 0) {
+    /* Check if ihe 'images' property exists, is an array, and has items */
+    if (options.hasOwnProperty('images') && Array.isArray(options.images) && options.images.length > 0) {
       
       options.images.forEach(imageObj => {
-        const imgElement = document.createElement('*');
+        const imgElement = document.createElement('img');
         imgElement.src = imageObj.src;
         imgElement.alt = imageObj.title;
         
@@ -58,33 +66,7 @@ function simbaGridScroll(element, options) {
     // simbaGridWrapper.querySelectorAll('*').remove();
     return Array.from(clonedWrapper.querySelectorAll('*'));
   }
-/*   
-  const gridItemsObject = [
-    { 'image": "images/01.jpg" },
-    { "image": "images/02.jpg" },
-    { "image": "images/03.jpg" },
-    { "image": "images/04.jpg" },
-    { "image": "images/05.jpg" },
-    { "image": "images/06.jpg" },
-    { "image": "images/07.jpg" },
-    { "image": "images/08.jpg" },
-    { "image": "images/09.jpg" },
-    { "image": "images/10.jpg" },
-    { "image": "images/11.jpg" },
-    { "image": "images/12.jpg" },
-    { "image": "images/13.jpg" },
-    { "image": "images/14.jpg" },
-    { "image": "images/15.jpg" },
-    { "image": "images/16.jpg" },
-    { "image": "images/17.jpg" },
-    { "image": "images/18.jpg" },
-    { "image": "images/19.jpg" },
-    { "image": "images/20.jpg" },
-    { "image": "images/21.jpg" }
-  ]; */
-
-
-
+  
   const gridGap = options.gap;
   const gridItemHeight = options.rowHeight;
   const gridContainerWidth = options.width;
@@ -136,7 +118,7 @@ function simbaGridScroll(element, options) {
       // simbaGridItem.style.minHeight = `${gridItemHeight}px`;
       simbaGridItem.style.overflow = 'hidden';
       // simbaGridItem.style.borderRadius = `8px`;
-
+      
       if (itemData.tagName === 'IMG') {
         simbaGridItem.style.backgroundImage = `url(${itemData.currentSrc})`;
         simbaGridItem.style.backgroundSize = 'cover';
@@ -159,14 +141,20 @@ function simbaGridScroll(element, options) {
   const gridGroups = chunkArray(gridItemsData, gridChunkCount);
   const gridGroupsCount = gridGroups.length;
   const gridGroupsCols = gridGroupsCount * 2; // Double the grid for smooth infinite effect
-
-  simbaGridWrapper.classList.add('simba-grid-wrapper');
-  simbaGridWrapper.style.display = 'grid';
-  simbaGridWrapper.style.gap = `${gridGap}px`;
-  simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
-  simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
-  simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
   
+  /* Set Simba grid wrapper attributes and styles */
+  (function(simbaGridWrapper) {
+    simbaGridWrapper.classList.add('simba-grid-wrapper');
+    simbaGridWrapper.style.width = '100%';
+    simbaGridWrapper.style.whiteSpce = 'nowrap';
+    simbaGridWrapper.style.overflow = 'hidden';
+    simbaGridWrapper.style.display = 'grid';
+    simbaGridWrapper.style.gap = `${gridGap}px`;
+    simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
+    simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
+    simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+  })(simbaGridWrapper);
+    
   /* Group array elements in sets of 'chunkSize' */
   function chunkArray(arr, chunkSize) {
     const chunkedArray = [];
@@ -217,6 +205,9 @@ function simbaGridScroll(element, options) {
   simbaGridWrapper.addEventListener('mouseleave', () => isHovering = false );
   
   function repeatArray(array, targetLength) {
+
+    if (!array.length) return;
+
     const repeatedArray = [];
     const originalLength = array.length;
     const repeatCount = Math.ceil(targetLength / originalLength);
@@ -267,21 +258,27 @@ function simbaGridScroll(element, options) {
           transformEnd = 'rotate(0deg) scale(1)';
           break;
         default:
+          transformStart = '';
+          transformEnd = '';
           break;
       }
       
-      gridItem.style.opacity = 0;
-      gridItem.style.transform = transformStart;
-      gridItem.style.transitionProperty = `opacity, transform`;
-      gridItem.style.transitionDuration = `0.4s, 0.4s`;
-      gridItem.style.transitionTimingFunction = `linear, linear`;
-      gridItem.style.transitionDelay = `0s, 0s`;
-          
-      setTimeout(() => {
-        // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
-        gridItem.style.opacity = 1;
-        gridItem.style.transform = transformEnd;
-      }, j*200);
+      if (options.animationStyle === 'zoom' || 
+        options.animationStyle === 'rotate' || 
+        options.animationStyle === 'zoomRotate') {
+        gridItem.style.opacity = 0;
+        gridItem.style.transform = transformStart;
+        gridItem.style.transitionProperty = `opacity, transform`;
+        gridItem.style.transitionDuration = `0.4s, 0.4s`;
+        gridItem.style.transitionTimingFunction = `linear, linear`;
+        gridItem.style.transitionDelay = `0s, 0s`;
+            
+        setTimeout(() => {
+          // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
+          gridItem.style.opacity = 1;
+          gridItem.style.transform = transformEnd;
+        }, j*200);
+      }
     }
   }
   
@@ -290,11 +287,17 @@ function simbaGridScroll(element, options) {
   }
   
   function calculateNextDivisible(ref, num) {
-
+    
+    /* Fix: Ensure grid wrapper has a min of 2 child grids incase Math.ceil(num / ref) is equal to 1 */
+    
     /* Calculate the next number that is divisible by reference number */
-    const nextDivisible = Math.ceil(num / ref) * ref;
+    const nextDivisible = Math.max(Math.ceil(num / ref), 2) * ref;
     
     return nextDivisible;
   }
   
 };
+
+/* Call the function for elements with the 'data-simba-grid' attribute */
+const simbaGridScrollElements = document.querySelectorAll('[data-simba-grid]');
+simbaGridScrollElements.forEach(element => simbaGridScroll(element));

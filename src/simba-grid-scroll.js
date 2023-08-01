@@ -42,11 +42,11 @@ function simbaGridScroll(element, options) {
 
     let gridItems;
     
-    /* Check if ihe 'grid' property exists, is an array, and has items */
-    if (options.hasOwnProperty('grid') && Array.isArray(options.images) && options.images.length > 0) {
+    /* Check if ihe 'images' property exists, is an array, and has items */
+    if (options.hasOwnProperty('images') && Array.isArray(options.images) && options.images.length > 0) {
       
       options.images.forEach(imageObj => {
-        const imgElement = document.createElement('*');
+        const imgElement = document.createElement('img');
         imgElement.src = imageObj.src;
         imgElement.alt = imageObj.title;
         
@@ -118,7 +118,7 @@ function simbaGridScroll(element, options) {
       // simbaGridItem.style.minHeight = `${gridItemHeight}px`;
       simbaGridItem.style.overflow = 'hidden';
       // simbaGridItem.style.borderRadius = `8px`;
-
+      
       if (itemData.tagName === 'IMG') {
         simbaGridItem.style.backgroundImage = `url(${itemData.currentSrc})`;
         simbaGridItem.style.backgroundSize = 'cover';
@@ -141,7 +141,6 @@ function simbaGridScroll(element, options) {
   const gridGroups = chunkArray(gridItemsData, gridChunkCount);
   const gridGroupsCount = gridGroups.length;
   const gridGroupsCols = gridGroupsCount * 2; // Double the grid for smooth infinite effect
-
   
   /* Set Simba grid wrapper attributes and styles */
   (function(simbaGridWrapper) {
