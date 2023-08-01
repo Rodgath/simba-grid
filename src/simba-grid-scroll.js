@@ -11,6 +11,14 @@ function simbaGridScroll(element, options) {
     shuffle: false,
     animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
   };
+  
+  /* Check if options argument is provided directly or in the data attribute */
+  if (!options) {
+    var dataAttributeOptions = element.dataset.simbaGrid;
+    if (dataAttributeOptions) {
+      options = JSON.parse(dataAttributeOptions);
+    }
+  }
 
   /* Merge 'options' with 'defaults' */
   options = Object.assign({}, defaults, options);
@@ -298,3 +306,7 @@ function simbaGridScroll(element, options) {
   }
   
 };
+
+/* Call the function for elements with the 'data-simba-grid' attribute */
+const simbaGridScrollElements = document.querySelectorAll('[data-simba-grid]');
+simbaGridScrollElements.forEach(element => simbaGridScroll(element));
