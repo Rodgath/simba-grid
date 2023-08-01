@@ -275,21 +275,27 @@ function simbaGridScroll(element, options) {
           transformEnd = 'rotate(0deg) scale(1)';
           break;
         default:
+          transformStart = '';
+          transformEnd = '';
           break;
       }
       
-      gridItem.style.opacity = 0;
-      gridItem.style.transform = transformStart;
-      gridItem.style.transitionProperty = `opacity, transform`;
-      gridItem.style.transitionDuration = `0.4s, 0.4s`;
-      gridItem.style.transitionTimingFunction = `linear, linear`;
-      gridItem.style.transitionDelay = `0s, 0s`;
-          
-      setTimeout(() => {
-        // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
-        gridItem.style.opacity = 1;
-        gridItem.style.transform = transformEnd;
-      }, j*200);
+      if (options.animationStyle === 'zoom' || 
+        options.animationStyle === 'rotate' || 
+        options.animationStyle === 'zoomRotate') {
+        gridItem.style.opacity = 0;
+        gridItem.style.transform = transformStart;
+        gridItem.style.transitionProperty = `opacity, transform`;
+        gridItem.style.transitionDuration = `0.4s, 0.4s`;
+        gridItem.style.transitionTimingFunction = `linear, linear`;
+        gridItem.style.transitionDelay = `0s, 0s`;
+            
+        setTimeout(() => {
+          // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
+          gridItem.style.opacity = 1;
+          gridItem.style.transform = transformEnd;
+        }, j*200);
+      }
     }
   }
   
