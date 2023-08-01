@@ -298,9 +298,11 @@ function simbaGridScroll(element, options) {
   }
   
   function calculateNextDivisible(ref, num) {
-
+    
+    /* Fix: Ensure grid wrapper has a min of 2 child grids incase Math.ceil(num / ref) is equal to 1 */
+    
     /* Calculate the next number that is divisible by reference number */
-    const nextDivisible = Math.ceil(num / ref) * ref;
+    const nextDivisible = Math.max(Math.ceil(num / ref), 2) * ref;
     
     return nextDivisible;
   }
