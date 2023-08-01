@@ -67,11 +67,11 @@ function simbaGridScroll(element, options) {
     return Array.from(clonedWrapper.querySelectorAll('*'));
   }
   
-  const gridGap = options.gap;
-  const gridItemHeight = options.rowHeight;
-  const gridContainerWidth = options.width;
-  const gridContainerRows = options.rows;
-  const gridContainerCols = options.cols;
+  const gridGap = parseInt(options.gap, 10);
+  const gridItemHeight = parseInt(options.rowHeight, 10);
+  const gridContainerWidth = parseInt(options.width, 10);
+  const gridContainerRows = parseInt(options.rows, 10);
+  const gridContainerCols = parseInt(options.cols, 10);
   const gridChunkCount = gridContainerRows*gridContainerCols;
   const gridItemsToFetch = gridItemsObject.length+getRandomBetween(1,2);
   const maxGridItemsToFetch = calculateNextDivisible(gridChunkCount, gridItemsToFetch);
@@ -152,9 +152,9 @@ function simbaGridScroll(element, options) {
     simbaGridWrapper.style.gap = `${gridGap}px`;
     simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
     simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
-    // simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+    simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
   })(simbaGridWrapper);
-    
+  
   /* Group array elements in sets of 'chunkSize' */
   function chunkArray(arr, chunkSize) {
     const chunkedArray = [];
