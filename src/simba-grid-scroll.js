@@ -168,13 +168,20 @@ function simbaGridScroll(element, options) {
   const gridGroupsCount = gridGroups.length;
   const gridGroupsCols = gridGroupsCount * 2; // Double the grid for smooth infinite effect
 
-  simbaGridWrapper.classList.add('simba-grid-wrapper');
-  simbaGridWrapper.style.display = 'grid';
-  simbaGridWrapper.style.gap = `${gridGap}px`;
-  simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
-  simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
-  simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
   
+  /* Set Simba grid wrapper attributes and styles */
+  (function(simbaGridWrapper) {
+    simbaGridWrapper.classList.add('simba-grid-wrapper');
+    simbaGridWrapper.style.width = '100%';
+    simbaGridWrapper.style.whiteSpce = 'nowrap';
+    simbaGridWrapper.style.overflow = 'hidden';
+    simbaGridWrapper.style.display = 'grid';
+    simbaGridWrapper.style.gap = `${gridGap}px`;
+    simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
+    simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
+    simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+  })(simbaGridWrapper);
+    
   /* Group array elements in sets of 'chunkSize' */
   function chunkArray(arr, chunkSize) {
     const chunkedArray = [];
