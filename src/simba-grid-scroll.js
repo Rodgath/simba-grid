@@ -66,33 +66,7 @@ function simbaGridScroll(element, options) {
     // simbaGridWrapper.querySelectorAll('*').remove();
     return Array.from(clonedWrapper.querySelectorAll('*'));
   }
-/*   
-  const gridItemsObject = [
-    { 'image": "images/01.jpg" },
-    { "image": "images/02.jpg" },
-    { "image": "images/03.jpg" },
-    { "image": "images/04.jpg" },
-    { "image": "images/05.jpg" },
-    { "image": "images/06.jpg" },
-    { "image": "images/07.jpg" },
-    { "image": "images/08.jpg" },
-    { "image": "images/09.jpg" },
-    { "image": "images/10.jpg" },
-    { "image": "images/11.jpg" },
-    { "image": "images/12.jpg" },
-    { "image": "images/13.jpg" },
-    { "image": "images/14.jpg" },
-    { "image": "images/15.jpg" },
-    { "image": "images/16.jpg" },
-    { "image": "images/17.jpg" },
-    { "image": "images/18.jpg" },
-    { "image": "images/19.jpg" },
-    { "image": "images/20.jpg" },
-    { "image": "images/21.jpg" }
-  ]; */
-
-
-
+  
   const gridGap = options.gap;
   const gridItemHeight = options.rowHeight;
   const gridContainerWidth = options.width;
