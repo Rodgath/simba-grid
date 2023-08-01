@@ -225,6 +225,9 @@ function simbaGridScroll(element, options) {
   simbaGridWrapper.addEventListener('mouseleave', () => isHovering = false );
   
   function repeatArray(array, targetLength) {
+
+    if (!array.length) return;
+
     const repeatedArray = [];
     const originalLength = array.length;
     const repeatCount = Math.ceil(targetLength / originalLength);
