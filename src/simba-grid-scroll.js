@@ -152,7 +152,7 @@ function simbaGridScroll(element, options) {
     simbaGridWrapper.style.gap = `${gridGap}px`;
     simbaGridWrapper.style.gridTemplateColumns = `repeat(${gridGroupsCols}, 1fr)`;
     simbaGridWrapper.style.gridAutoRows = `${gridItemHeight*gridContainerRows}px`;
-    simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
+    // simbaGridWrapper.style.height = `${((gridItemHeight+gridGap)*gridContainerRows)-gridGap}px`;
   })(simbaGridWrapper);
     
   /* Group array elements in sets of 'chunkSize' */
