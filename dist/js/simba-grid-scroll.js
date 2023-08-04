@@ -33,7 +33,7 @@ function simbaGridScroll(element, options) {
     simbaGridWrapper = document.querySelector(element);
   }
   
-  gridItemsObject = getGridItems();
+  const gridItemsObject = getGridItems();
   
   /* Get the images to spin */
   function getGridItems() {

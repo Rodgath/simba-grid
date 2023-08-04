@@ -33,7 +33,7 @@ function simbaGridScroll(element, options) {
     simbaGridWrapper = document.querySelector(element);
   }
   
-  gridItemsObject = getGridItems();
+  const gridItemsObject = getGridItems();
   
   /* Get the images to spin */
   function getGridItems() {
@@ -267,6 +267,7 @@ function simbaGridScroll(element, options) {
         options.animationStyle === 'rotate' || 
         options.animationStyle === 'zoomRotate') {
         gridItem.style.opacity = 0;
+        gridItem.style['-webkit-transform'] = transformStart;
         gridItem.style.transform = transformStart;
         gridItem.style.transitionProperty = `opacity, transform`;
         gridItem.style.transitionDuration = `0.4s, 0.4s`;
@@ -276,6 +277,7 @@ function simbaGridScroll(element, options) {
         setTimeout(() => {
           // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
           gridItem.style.opacity = 1;
+          gridItem.style['-webkit-transform'] = transformEnd;
           gridItem.style.transform = transformEnd;
         }, j*200);
       }
