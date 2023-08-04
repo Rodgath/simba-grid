@@ -1,4 +1,4 @@
-function simbaGridScroll(element, options) {
+function simbaGrid(element, options) {
 
   var defaults = {
     width: 1200,
@@ -302,4 +302,4 @@ function simbaGridScroll(element, options) {
 
 /* Call the function for elements with the 'data-simba-grid' attribute */
 const simbaGridScrollElements = document.querySelectorAll('[data-simba-grid]');
-simbaGridScrollElements.forEach(element => simbaGridScroll(element));
+simbaGridScrollElements.forEach(element => simbaGrid(element));

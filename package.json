@@ -1,14 +1,14 @@
 {
-  "name": "simba-grid-scroll",
+  "name": "simba-grid",
   "version": "1.0.0",
   "description": "Infinite grid scroll",
-  "main": "./dist/simba-grid-scroll.min.js",
+  "main": "./dist/simba-grid.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rodgath/simba-grid-scroll.git"
+    "url": "git+https://github.com/Rodgath/simba-grid.git"
   },
   "keywords": [
     "grid-scroll",
@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Rodgath/simba-grid-scroll/issues",
+    "url": "https://github.com/Rodgath/simba-grid/issues",
     "email": "contact@rodgath.com"
   },
-  "homepage": "https://github.com/Rodgath/simba-grid-scroll",
+  "homepage": "https://github.com/Rodgath/simba-grid",
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
