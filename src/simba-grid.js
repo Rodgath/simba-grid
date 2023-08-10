@@ -7,6 +7,7 @@ function simbaGrid(element, options) {
     rowHeight: 280,
     gap: 0,
     scrollSpeed: 1,
+    scrollDirection: 'left',
     pauseOnHover: true,
     shuffle: false,
     animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
