@@ -30,11 +30,8 @@ const setBanner = () => {
   .pipe(dest('./dist'))
 }
 
-/* Set banner task */
-task('set:banner', () => setBanner())
-
 const compressJs = () => {
-  return src('src/*.js')
+  return src('./src/*.js')
         .pipe(dest('./demo/js')) // Send original script file to /demo
         .pipe(dest('./dist/js')) // Send original script file to /dist
         .pipe(babel({
@@ -51,13 +48,14 @@ const buildTask = () => {
 }
 
 const watchTask = () => {
-  watch(['./src/*.js', './demo/*.html'], { events: 'all' }, buildTask)
+  watch(['./src/*.js', './demo/*.html'], { events: 'all' }, buildTask())
 }
 
+
+/* Set tasks */
+task('set:banner', setBanner())
 task('compress:js', compressJs);
-
 task('watch', watchTask);
-
-task('build', buildTask);
+task('build', buildTask());
 
 exports.default = buildTask();
