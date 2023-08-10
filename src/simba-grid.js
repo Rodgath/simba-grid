@@ -175,6 +175,7 @@ function simbaGrid(element, options) {
   cloneAndAppendChildren(simbaGridWrapper);
   
   let isHovering = false;
+  let isScrollingForward = scrollDirection === 'right' ? true : false; // Variable to track scrolling direction
 
   /* Handle scrolling */
   const scrollContent = () => {
