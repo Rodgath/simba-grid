@@ -176,10 +176,10 @@ Name | Type | Default | Description
 `rowHeight` | _number_ | **280** | Grid row height.
 `gap` | _number_ | **0** | Space between grid items.
 `scrollSpeed` | _number_ | **1** | Grid scrolling speed. Min is `1`.
-`scrollDirection` | _string_ | **'left'** | Scroll direction. `'left'` or `'right'`.
+`scrollDirection` | _string_ | **'left'** | Scroll direction. <br> Possible values: `'left'` or `'right'`.
 `pauseOnHover` | _boolean_ | **true** | Whether to pause scrolling movement when grid is hovered on.
 `shuffle` | _boolean_ | **false** | Whether to shuffle grid items when grid is loaded.
-`animationStyle` | _string_ | **'zoom'** | Grid items entry animations. `'zoom'`, `'rotate'`, `'zoomRotate'`
+`animationStyle` | _string_ | **'zoom'** | Grid items entry animations. <br> Possible values: `'zoom'`, `'rotate'`, `'zoomRotate'`
 
 ## License
 simbaGrid is an open-source project released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
