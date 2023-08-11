@@ -189,11 +189,20 @@ function simbaGrid(element, options) {
       
       const offset = (gridContainer.offsetWidth * gridRepeats) + (gridRepeats * gridGap);
       
-      /* Reset the scroll position to the left when it reaches the end */
-      if (simbaGridWrapper.scrollLeft >= offset) {
-        simbaGridWrapper.scrollLeft -= offset;
+      if (!isScrollingRight) {
+      
+        /* Reset the scroll position to the left when it reaches the end */
+          if (simbaGridWrapper.scrollLeft >= offset) {
+              simbaGridWrapper.scrollLeft -= offset;
+          } else {
+              simbaGridWrapper.scrollLeft += options.scrollSpeed;
+          }
       } else {
-        simbaGridWrapper.scrollLeft += options.scrollSpeed;
+          if (simbaGridWrapper.scrollLeft <= offset - gridContainer.parentNode.offsetWidth) { // Check if at the leftmost edge
+              simbaGridWrapper.scrollLeft += offset * 2; // Multiply by 2 because the system appends similar number of nodes
+          } else {
+              simbaGridWrapper.scrollLeft -= options.scrollSpeed;
+          }
       }
     }
 
