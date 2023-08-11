@@ -22,8 +22,8 @@ Infinite grid scroll.
 
 **[A]** Download 
 
-+ [simba-grid.min.js](https://unpkg.com/simba-grid@1.0.1/dist/js/simba-grid.min.js) - Minified
-+ [simba-grid.js](https://unpkg.com/simba-grid@1.0.1/dist/js/simba-grid.min.js) - Unminified
++ [simba-grid.min.js](https://unpkg.com/simba-grid@latest/dist/js/simba-grid.min.js) - Minified
++ [simba-grid.js](https://unpkg.com/simba-grid@latest/dist/js/simba-grid.min.js) - Unminified
 
 **[B]** Package
 
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 ```
 + Using CDN file. _(Optional)_
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simba-grid@1.0.1/dist/js/simba-grid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simba-grid@latest/dist/js/simba-grid.min.js"></script>
 ```
 
 ##### <div align="right"><a href="#top">&uarr; TOP &uarr;</a></div>
@@ -105,7 +105,7 @@ Your HTML code with images
 ```
 + Using CDN file. _(Optional)_
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simba-grid@1.0.1/dist/js/simba-grid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simba-grid@latest/dist/js/simba-grid.min.js"></script>
 ```
 
 ##### <div align="right"><a href="#top">&uarr; TOP &uarr;</a></div>
