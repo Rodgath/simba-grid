@@ -170,7 +170,11 @@ function simbaGrid(element, options) {
 
   gridGroups.forEach((group, index) => {
 
-    const gridContainer = createItemGrid(group, index);
+    let gridContainer = createItemGrid(group, index);
+
+    if (isScrollingRight) {
+      gridContainer = gridItemsReverseOrder(gridContainer);
+    }
     
     simbaGridWrapper.appendChild(gridContainer);
   })
