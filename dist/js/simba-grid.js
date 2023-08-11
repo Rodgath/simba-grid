@@ -38,11 +38,11 @@ function simbaGrid(element, options) {
   /* Merge 'options' with 'defaults' */
   options = Object.assign({}, defaults, options);
 
-  /* Set image box element */
-  let simbaGridWrapper;
-
   /* Variable to track scrolling direction */
   let isScrollingRight = options.scrollDirection === 'right' ? true : false;
+
+  /* Set image box element */
+  let simbaGridWrapper;
   
   /* Check if 'element' is a valid DOM element */
   if (element instanceof HTMLElement || element instanceof Node) {
