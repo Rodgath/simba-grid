@@ -53,7 +53,7 @@ const watchTask = () => {
 
 
 /* Set tasks */
-task('set:banner', setBanner())
+task('set:banner', setBanner)
 task('compress:js', compressJs);
 task('watch', watchTask);
 task('build', buildTask());
