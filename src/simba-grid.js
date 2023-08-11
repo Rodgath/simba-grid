@@ -26,6 +26,9 @@ function simbaGrid(element, options) {
 
   /* Set image box element */
   let simbaGridWrapper;
+
+  /* Variable to track scrolling direction */
+  let isScrollingRight = options.scrollDirection === 'right' ? true : false;
   
   /* Check if 'element' is a valid DOM element */
   if (element instanceof HTMLElement || element instanceof Node) {
@@ -175,7 +178,6 @@ function simbaGrid(element, options) {
   cloneAndAppendChildren(simbaGridWrapper);
   
   let isHovering = false;
-  let isScrollingForward = scrollDirection === 'right' ? true : false; // Variable to track scrolling direction
 
   /* Handle scrolling */
   const scrollContent = () => {
