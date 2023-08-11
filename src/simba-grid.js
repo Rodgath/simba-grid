@@ -176,6 +176,36 @@ function simbaGrid(element, options) {
   })
 
   cloneAndAppendChildren(simbaGridWrapper);
+
+  /* Manage grid elements reverse ordering */
+  function gridItemsReverseOrder(gridContainer) {
+    const grid = gridContainer.querySelector('.simba-grid');
+    const squares = grid.querySelectorAll('.simba-grid-item');
+    
+    // Convert the NodeList to an array for easier manipulation
+    const squareArray = Array.from(squares);
+
+    // Reorder the array of squares
+    squareArray.sort((a, b) => {
+      const aRow = Math.floor(squareArray.indexOf(a) / options.cols); // Divide by 2 since there are 2 columns
+      const bRow = Math.floor(squareArray.indexOf(b) / options.cols);
+      return bRow - aRow; // Compare row indices to reverse the order
+    });
+
+    // Remove existing squares from parent grid
+    squares.forEach(square => square.remove());
+
+    // Append the rearranged squares back to the parent grid
+    squareArray.forEach(square => grid.appendChild(square));
+    
+    while (gridContainer.firstChild) {
+      gridContainer.removeChild(gridContainer.firstChild);
+    }
+    
+    gridContainer.appendChild(grid)
+    const container = gridContainer;
+    return container;
+  }
   
   let isHovering = false;
 
