@@ -168,17 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
 ---
 # Options 
 
- width: 1200,
-    cols: 3,
-    rows: 3,
-    rowHeight: 280,
-    gap: 0,
-    scrollSpeed: 1,
-    scrollDirection: 'left',
-    pauseOnHover: true,
-    shuffle: false,
-    animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
-
 Name | Type | Default | Description
 :--- | :--- | :------ | :----------
 `width` | _number_ | **1200** | Width of each grid group.
