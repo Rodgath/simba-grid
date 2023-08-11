@@ -16,7 +16,7 @@ const setBanner = () => {
     ` * @author      ${pkg.author.name}, ${pkg.author.web}`,
     ` * @version     v${pkg.version}`,
     ` * @created     Jul 22, 2023`,
-    ` * @updated     Aug 04, ${new Date().getFullYear()}`,
+    ` * @updated     Aug 11, ${new Date().getFullYear()}`,
     ` * @copyright   Copyright (C) 2023-${new Date().getFullYear()}, ${pkg.author.name}`,
     ` * @license     ${pkg.license}`,
     ` * @licenseMIT  ${pkg.homepage}/blob/main/LICENSE`,
