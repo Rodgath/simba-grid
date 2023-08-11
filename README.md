@@ -187,7 +187,7 @@ Name | Type | Default | Description
 `rowHeight` | _number_ | **280** | Grid row height.
 `gap` | _number_ | **0** | Space between grid items.
 `scrollSpeed` | _number_ | **1** | Grid scrolling speed. Min is `1`.
-`scrollDirection` | _string_ | **'left'** | Scroll direction. `'left'` ro `'right'`.
+`scrollDirection` | _string_ | **'left'** | Scroll direction. `'left'` or `'right'`.
 `pauseOnHover` | _boolean_ | **true** | Whether to pause scrolling movement when grid is hovered on.
 `shuffle` | _boolean_ | **false** | Whether to shuffle grid items when grid is loaded.
 `animationStyle` | _string_ | **'zoom'** | Grid items entry animations. `'zoom'`, `'rotate'`, `'zoomRotate'`
