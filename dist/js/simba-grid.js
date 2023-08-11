@@ -5,8 +5,8 @@
  * @link        https://github.com/Rodgath/simba-grid
  * @author      Rodgath, https://Rodgath.com
  * @version     v1.0.0
- * @created     July 22, 2023
- * @updated     August 04, 2023
+ * @created     Jul 22, 2023
+ * @updated     Aug 04, 2023
  * @copyright   Copyright (C) 2023-2023, Rodgath
  * @license     MIT
  * @licenseMIT  https://github.com/Rodgath/simba-grid/blob/main/LICENSE
@@ -21,6 +21,7 @@ function simbaGrid(element, options) {
     rowHeight: 280,
     gap: 0,
     scrollSpeed: 1,
+    scrollDirection: 'left',
     pauseOnHover: true,
     shuffle: false,
     animationStyle: 'zoom' // 'zoom', 'rotate', 'zoomRotate'
@@ -39,6 +40,9 @@ function simbaGrid(element, options) {
 
   /* Set image box element */
   let simbaGridWrapper;
+
+  /* Variable to track scrolling direction */
+  let isScrollingRight = options.scrollDirection === 'right' ? true : false;
   
   /* Check if 'element' is a valid DOM element */
   if (element instanceof HTMLElement || element instanceof Node) {
@@ -182,13 +186,16 @@ function simbaGrid(element, options) {
 
     let gridContainer = createItemGrid(group, index);
 
-    gridContainer = gridItemsReverseOrder(gridContainer);
+    if (isScrollingRight) {
+      gridContainer = gridItemsReverseOrder(gridContainer);
+    }
     
     simbaGridWrapper.appendChild(gridContainer);
   })
 
   cloneAndAppendChildren(simbaGridWrapper);
 
+  /* Manage grid elements reverse ordering */
   function gridItemsReverseOrder(gridContainer) {
     const grid = gridContainer.querySelector('.simba-grid');
     const squares = grid.querySelectorAll('.simba-grid-item');
@@ -219,7 +226,6 @@ function simbaGrid(element, options) {
   }
   
   let isHovering = false;
-  let isScrollingForward = false; // Variable to track scrolling direction
 
   /* Handle scrolling */
   const scrollContent = () => {
@@ -230,8 +236,8 @@ function simbaGrid(element, options) {
     if (!isHovering) {
       
       const offset = (gridContainer.offsetWidth * gridRepeats) + (gridRepeats * gridGap);
-
-      if (isScrollingForward) {
+      
+      if (!isScrollingRight) {
       
         /* Reset the scroll position to the left when it reaches the end */
           if (simbaGridWrapper.scrollLeft >= offset) {
@@ -241,7 +247,7 @@ function simbaGrid(element, options) {
           }
       } else {
           if (simbaGridWrapper.scrollLeft <= offset - gridContainer.parentNode.offsetWidth) { // Check if at the leftmost edge
-              simbaGridWrapper.scrollLeft += offset; // Multiply by 2 because the system appends similar number of nodes
+              simbaGridWrapper.scrollLeft += offset * 2; // Multiply by 2 because the system appends similar number of nodes
           } else {
               simbaGridWrapper.scrollLeft -= options.scrollSpeed;
           }
@@ -273,6 +279,58 @@ function simbaGrid(element, options) {
 
     return repeatedArray.slice(0, targetLength);
   }
+
+  /* Alter grid items transform animations based on scroll direction */
+  function manageGridItemsTransform(gridItems, index) {
+    
+    const gridItem = gridItems[index];
+      
+    let transformStart = '';
+    let transformEnd = '';
+
+    const rotationAngle = !isScrollingRight ? '-20deg' : '+20deg';
+    
+    switch (options.animationStyle) {
+      case 'zoom':
+        transformStart = 'scale(0)';
+        transformEnd = 'scale(1)';
+        break;
+      case 'rotate':
+        transformStart = `rotate(${rotationAngle})`;
+        transformEnd = 'rotate(0deg)';
+        break;
+      case 'zoomRotate':
+        transformStart = `rotate(${rotationAngle}) scale(0)`;
+        transformEnd = 'rotate(0deg) scale(1)';
+        break;
+      default:
+        transformStart = '';
+        transformEnd = '';
+        break;
+    }
+    
+    if (options.animationStyle === 'zoom' || 
+      options.animationStyle === 'rotate' || 
+      options.animationStyle === 'zoomRotate') {
+      gridItem.style.opacity = 0;
+      gridItem.style['-webkit-transform'] = transformStart;
+      gridItem.style.transform = transformStart;
+      gridItem.style.transitionProperty = `opacity, transform`;
+      gridItem.style.transitionDuration = `0.4s, 0.4s`;
+      gridItem.style.transitionTimingFunction = `linear, linear`;
+      gridItem.style.transitionDelay = `0s, 0s`;
+          
+      /* Adjust the timing based on reverse/forward direction order */
+      const timing = !isScrollingRight ? index * 200 : (gridItems.length - index - 1) * 200;
+      
+      setTimeout(() => {
+        // gridItem.style.transitionDelay = `0.${index*2}s, 0.${index*2}s`;
+        gridItem.style.opacity = 1;
+        gridItem.style['-webkit-transform'] = transformEnd;
+        gridItem.style.transform = transformEnd;
+      }, timing);
+    }
+  }
   
   /* Clone and append child elements to the end of the container */
   function cloneAndAppendChildren(container) {
@@ -281,7 +339,6 @@ function simbaGrid(element, options) {
 
     /* Clone each child element */
     for (let i = 0; i < originalChildren.length; i++) {
-    // for (let i = originalChildren.length - 1; i >= 0; i--) { // Loop in reverse order
       const originalChild = originalChildren[i];
       const clonedChild = originalChild.cloneNode(true); // Set to true to deep clone with all descendants
       cloneChildren.push(clonedChild);
@@ -294,56 +351,21 @@ function simbaGrid(element, options) {
 
     /* Handle animations */
     const gridItems = container.querySelectorAll('.simba-grid-item')
-    // for (let j = 0; j < gridItems.length; j++) {
-    for (let j = gridItems.length - 1; j >= 0; j--) { // Loop in reverse order
-      const gridItem = gridItems[j];
-      
-      let transformStart = '';
-      let transformEnd = '';
-      
-      switch (options.animationStyle) {
-        case 'zoom':
-          transformStart = 'scale(0)';
-          transformEnd = 'scale(1)';
-          break;
-        case 'rotate':
-          transformStart = 'rotate(+20deg)';
-          transformEnd = 'rotate(0deg)';
-          break;
-        case 'zoomRotate':
-          transformStart = 'rotate(+20deg) scale(0)';
-          transformEnd = 'rotate(0deg) scale(1)';
-          break;
-        default:
-          transformStart = '';
-          transformEnd = '';
-          break;
+    if (!isScrollingRight) {
+      for (let j = 0; j < gridItems.length; j++) {
+        manageGridItemsTransform(gridItems, j);
       }
-      
-      if (options.animationStyle === 'zoom' || 
-        options.animationStyle === 'rotate' || 
-        options.animationStyle === 'zoomRotate') {
-        gridItem.style.opacity = 0;
-        gridItem.style['-webkit-transform'] = transformStart;
-        gridItem.style.transform = transformStart;
-        gridItem.style.transitionProperty = `opacity, transform`;
-        gridItem.style.transitionDuration = `0.4s, 0.4s`;
-        gridItem.style.transitionTimingFunction = `linear, linear`;
-        gridItem.style.transitionDelay = `0s, 0s`;
-            
-        setTimeout(() => {
-          // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
-          gridItem.style.opacity = 1;
-          gridItem.style['-webkit-transform'] = transformEnd;
-          gridItem.style.transform = transformEnd;
-        // }, j*200);
-        }, (gridItems.length - j - 1)*200); // Adjust the timing based on reversed order
+    } else {
+      for (let j = gridItems.length - 1; j >= 0; j--) { // Loop in reverse order
+        manageGridItemsTransform(gridItems, j);
       }
     }
     
-    for (let i = 0; i < originalChildren.length; i++) {
-      const originalChild = originalChildren[i];
-      gridItemsReverseOrder(originalChild)
+    if (isScrollingRight) {
+      for (let i = 0; i < originalChildren.length; i++) {
+        const originalChild = originalChildren[i];
+        gridItemsReverseOrder(originalChild)
+      }
     }
   }
   

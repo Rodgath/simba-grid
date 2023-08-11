@@ -265,6 +265,58 @@ function simbaGrid(element, options) {
 
     return repeatedArray.slice(0, targetLength);
   }
+
+  /* Alter grid items transform animations based on scroll direction */
+  function manageGridItemsTransform(gridItems, index) {
+    
+    const gridItem = gridItems[index];
+      
+    let transformStart = '';
+    let transformEnd = '';
+
+    const rotationAngle = !isScrollingRight ? '-20deg' : '+20deg';
+    
+    switch (options.animationStyle) {
+      case 'zoom':
+        transformStart = 'scale(0)';
+        transformEnd = 'scale(1)';
+        break;
+      case 'rotate':
+        transformStart = `rotate(${rotationAngle})`;
+        transformEnd = 'rotate(0deg)';
+        break;
+      case 'zoomRotate':
+        transformStart = `rotate(${rotationAngle}) scale(0)`;
+        transformEnd = 'rotate(0deg) scale(1)';
+        break;
+      default:
+        transformStart = '';
+        transformEnd = '';
+        break;
+    }
+    
+    if (options.animationStyle === 'zoom' || 
+      options.animationStyle === 'rotate' || 
+      options.animationStyle === 'zoomRotate') {
+      gridItem.style.opacity = 0;
+      gridItem.style['-webkit-transform'] = transformStart;
+      gridItem.style.transform = transformStart;
+      gridItem.style.transitionProperty = `opacity, transform`;
+      gridItem.style.transitionDuration = `0.4s, 0.4s`;
+      gridItem.style.transitionTimingFunction = `linear, linear`;
+      gridItem.style.transitionDelay = `0s, 0s`;
+          
+      /* Adjust the timing based on reverse/forward direction order */
+      const timing = !isScrollingRight ? index * 200 : (gridItems.length - index - 1) * 200;
+      
+      setTimeout(() => {
+        // gridItem.style.transitionDelay = `0.${index*2}s, 0.${index*2}s`;
+        gridItem.style.opacity = 1;
+        gridItem.style['-webkit-transform'] = transformEnd;
+        gridItem.style.transform = transformEnd;
+      }, timing);
+    }
+  }
   
   /* Clone and append child elements to the end of the container */
   function cloneAndAppendChildren(container) {
@@ -285,48 +337,20 @@ function simbaGrid(element, options) {
 
     /* Handle animations */
     const gridItems = container.querySelectorAll('.simba-grid-item')
-    for (let j = 0; j < gridItems.length; j++) {
-      const gridItem = gridItems[j];
-      
-      let transformStart = '';
-      let transformEnd = '';
-      
-      switch (options.animationStyle) {
-        case 'zoom':
-          transformStart = 'scale(0)';
-          transformEnd = 'scale(1)';
-          break;
-        case 'rotate':
-          transformStart = 'rotate(-20deg)';
-          transformEnd = 'rotate(0deg)';
-          break;
-        case 'zoomRotate':
-          transformStart = 'rotate(-20deg) scale(0)';
-          transformEnd = 'rotate(0deg) scale(1)';
-          break;
-        default:
-          transformStart = '';
-          transformEnd = '';
-          break;
+    if (!isScrollingRight) {
+      for (let j = 0; j < gridItems.length; j++) {
+        manageGridItemsTransform(gridItems, j);
       }
-      
-      if (options.animationStyle === 'zoom' || 
-        options.animationStyle === 'rotate' || 
-        options.animationStyle === 'zoomRotate') {
-        gridItem.style.opacity = 0;
-        gridItem.style['-webkit-transform'] = transformStart;
-        gridItem.style.transform = transformStart;
-        gridItem.style.transitionProperty = `opacity, transform`;
-        gridItem.style.transitionDuration = `0.4s, 0.4s`;
-        gridItem.style.transitionTimingFunction = `linear, linear`;
-        gridItem.style.transitionDelay = `0s, 0s`;
-            
-        setTimeout(() => {
-          // gridItem.style.transitionDelay = `0.${j*2}s, 0.${j*2}s`;
-          gridItem.style.opacity = 1;
-          gridItem.style['-webkit-transform'] = transformEnd;
-          gridItem.style.transform = transformEnd;
-        }, j*200);
+    } else {
+      for (let j = gridItems.length - 1; j >= 0; j--) { // Loop in reverse order
+        manageGridItemsTransform(gridItems, j);
+      }
+    }
+    
+    if (isScrollingRight) {
+      for (let i = 0; i < originalChildren.length; i++) {
+        const originalChild = originalChildren[i];
+        gridItemsReverseOrder(originalChild)
       }
     }
   }
