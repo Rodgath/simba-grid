@@ -4,6 +4,49 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.top-bar {
+  position          : relative;
+  text-transform    : uppercase;
+  font-family       : 'Arial Narrow', Arial, sans-serif;
+  line-height       : 24px;
+  font-size         : 11px;
+  background        : #404040;
+  height            : 30px;
+  display           : flex;
+  align-items       : center;
+  justify-content   : space-between;
+  -moz-box-shadow   : 1px 0px 2px #505050;
+  -webkit-box-shadow: 1px 0px 2px #505050;
+  box-shadow        : 1px 0px 2px #505050;
+}
+
+.top-bar a {
+  text-decoration: none;
+  padding        : 0px 10px;
+  letter-spacing : 1px;
+  color          : #ddd;
+  display        : flex;
+  align-items    : center;
+  float          : left;
+}
+
+.top-bar a:hover {
+  color: #fff;
+}
+
+.top-bar svg {
+  margin-right: 4px;
+}
+
+.top-bar span.right {
+  float: right;
+}
+
+.top-bar span.right a {
+  float  : none;
+  display: inline;
+}
+
 .sg-header {
   position      : relative;
   width         : 100%;
