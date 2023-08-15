@@ -57,7 +57,18 @@ body {
   padding-bottom: 10px;
 }
 
+.sg-header .logo {
+  max-width: 200px;
+  margin   : 20px auto 10px;
+}
+
+.sg-header .logo img {
+  max-width: 100%;
+  height   : auto
+}
+
 .sg-header h1 {
+  display    : none;
   position   : relative;
   line-height: 32px;
   font-size  : 32px;
