@@ -8,15 +8,6 @@ Infinite grid scroll.
 
 <br>
 
-[![NPM Version](https://img.shields.io/npm/v/simba-grid.svg?color=00BAB8)]()
-[![NPM License](https://img.shields.io/npm/l/all-contributors.svg?color=00a7a6)](https://github.com/Rodgath/simba-grid/blob/master/LICENSE)
-[![NPM Downloads](https://img.shields.io/npm/dw/simba-grid.svg?color=009593)]() 
-![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/simba-grid/latest?color=008281)
-
-![GitHub issues](https://img.shields.io/github/issues-raw/Rodgath/simba-grid?color=37bf4c)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/Rodgath/simba-grid.svg?color=32ac44)]()
-[![PR's Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=278635)](http://makeapullrequest.com) 
-
 # Table of Contents
 
 - [Installation](#installation)
